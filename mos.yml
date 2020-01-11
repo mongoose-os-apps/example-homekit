@@ -1,0 +1,45 @@
+author: 'Deomid "rojer" Ryabkov'
+description: A demo HomeKit app for MOngoose OS
+version: 1.0.0
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+tags:
+  - c
+  - homekit
+
+sources:
+  - src
+
+filesystem:
+  - fs
+
+cdefs:
+  IP: 1
+  BLE: 0  # Not supported yet
+  # This saves quite a bit of space but disables all HAP debug output.
+  # HAP_LOG_LEVEL: 0
+  HAP_PRODUCT_NAME: '"Acme Light Bulb 9000"'
+  HAP_PRODUCT_VENDOR: '"Acme"'
+  HAP_PRODUCT_MODEL: '"LB9K"'
+  HAP_PRODUCT_HW_REV: '"1.0"'
+
+config_schema:
+  # Serial number. This can be later set in the field but HomeKit requires at least 2 bytes.
+  - ["device.sn", "000000"]
+
+build_vars:
+  # Enables storing setup info in the config and a simple RPC service to configure it.
+  MGOS_HAP_SIMPLE_CONFIG: 1
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/homekit-adk
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/rpc-ws
+  - origin: https://github.com/mongoose-os-libs/wifi
+
+manifest_version: 2017-05-18
