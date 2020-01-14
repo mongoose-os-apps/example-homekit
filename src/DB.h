@@ -26,47 +26,9 @@ extern "C" {
 #define kAttributeCount ((size_t) 21)
 
 /**
- * HomeKit Accessory Information service.
- */
-extern const HAPService accessoryInformationService;
-
-/**
- * Characteristics to expose accessory information and configuration (associated
- * with Accessory Information service).
- */
-extern const HAPBoolCharacteristic accessoryInformationIdentifyCharacteristic;
-extern const HAPStringCharacteristic
-    accessoryInformationManufacturerCharacteristic;
-extern const HAPStringCharacteristic accessoryInformationModelCharacteristic;
-extern const HAPStringCharacteristic accessoryInformationNameCharacteristic;
-extern const HAPStringCharacteristic
-    accessoryInformationSerialNumberCharacteristic;
-extern const HAPStringCharacteristic
-    accessoryInformationFirmwareRevisionCharacteristic;
-extern const HAPStringCharacteristic
-    accessoryInformationHardwareRevisionCharacteristic;
-extern const HAPStringCharacteristic
-    accessoryInformationADKVersionCharacteristic;
-
-/**
- * HAP Protocol Information service.
- */
-extern const HAPService hapProtocolInformationService;
-
-/**
- * Pairing service.
- */
-extern const HAPService pairingService;
-
-/**
  * Light Bulb service.
  */
-extern const HAPService lightBulbService;
-
-/**
- * The 'On' characteristic of the Light Bulb service.
- */
-extern const HAPBoolCharacteristic lightBulbOnCharacteristic;
+extern HAPService lightBulbService;
 
 #if __has_feature(nullability)
 #pragma clang assume_nonnull end

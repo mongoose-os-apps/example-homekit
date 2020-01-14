@@ -25,10 +25,12 @@ cdefs:
   HAP_PRODUCT_VENDOR: '"Acme"'
   HAP_PRODUCT_MODEL: '"LB9K"'
   HAP_PRODUCT_HW_REV: '"1.0"'
+  HAP_SERVICE_NAME: '"Light Bulb"'
 
 config_schema:
   # Serial number. This can be later set in the field but HomeKit requires at least 2 bytes.
   - ["device.sn", "000000"]
+  - ["lightbulb.name", "s", "Light Bulb", {"title": "Accessory name (unless renamed by the user)"}]
 
 build_vars:
   # Enables storing setup info in the config and a simple RPC service to configure it.

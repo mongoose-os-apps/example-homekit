@@ -28,12 +28,11 @@
 //   6. Callbacks that notify the server in case their associated value has
 //   changed.
 
-#include "HAP.h"
-
 #include "App.h"
 #include "DB.h"
 
 #include "mgos.h"
+#include "mgos_hap.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,9 +137,11 @@ static HAPAccessory accessory = {
     .firmwareVersion = NULL,  // Set from build_id.
     .hardwareVersion = CS_STRINGIFY_MACRO(HAP_PRODUCT_HW_REV),
     .services =
-        (const HAPService *const[]){&accessoryInformationService,
-                                    &hapProtocolInformationService,
-                                    &pairingService, &lightBulbService, NULL},
+        (const HAPService *const[]){&mgos_hap_accessory_information_service,
+                                    &mgos_hap_protocol_information_service,
+                                    &mgos_hap_pairing_service,
+                                    &lightBulbService,
+                                    NULL},
     .callbacks = {.identify = IdentifyAccessory}};
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -251,6 +252,7 @@ void AppInitialize(
     HAPAccessoryServerCallbacks *hapAccessoryServerCallbacks HAP_UNUSED) {
   accessory.firmwareVersion = mgos_sys_ro_vars_get_fw_version();
   accessory.serialNumber = mgos_sys_config_get_device_sn();
+  lightBulbService.name = mgos_sys_config_get_lightbulb_name();
 }
 
 void AppDeinitialize() {
