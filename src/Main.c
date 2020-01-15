@@ -232,16 +232,10 @@ static void InitializeIP() {
     ipSessions[i].numEventNotifications =
         HAPArrayCount(ipEventNotifications[i]);
   }
-  static HAPIPReadContextRef ipReadContexts[kAttributeCount];
-  static HAPIPWriteContextRef ipWriteContexts[kAttributeCount];
   static uint8_t ipScratchBuffer[3072];
   static HAPIPAccessoryServerStorage ipAccessoryServerStorage = {
       .sessions = ipSessions,
       .numSessions = HAPArrayCount(ipSessions),
-      .readContexts = ipReadContexts,
-      .numReadContexts = HAPArrayCount(ipReadContexts),
-      .writeContexts = ipWriteContexts,
-      .numWriteContexts = HAPArrayCount(ipWriteContexts),
       .scratchBuffer = {.bytes = ipScratchBuffer,
                         .numBytes = sizeof ipScratchBuffer}};
 
