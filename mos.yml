@@ -39,9 +39,18 @@ build_vars:
 libs:
   - origin: https://github.com/mongoose-os-libs/homekit-adk
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
-  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
   - origin: https://github.com/mongoose-os-libs/rpc-uart
   - origin: https://github.com/mongoose-os-libs/rpc-ws
-  - origin: https://github.com/mongoose-os-libs/wifi
+
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      libs:
+        - origin: https://github.com/mongoose-os-libs/wifi
+
+  - when: mos.platform == "esp8266"
+    apply:
+      libs:
+        - origin: https://github.com/mongoose-os-libs/wifi
 
 manifest_version: 2017-05-18

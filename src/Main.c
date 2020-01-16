@@ -218,7 +218,7 @@ void HandleUpdatedState(HAPAccessoryServerRef *_Nonnull server,
 #if IP
 static void InitializeIP() {
   // Prepare accessory server storage.
-  static HAPIPSession ipSessions[5];
+  static HAPIPSession ipSessions[3];
   static uint8_t ipInboundBuffers[HAPArrayCount(ipSessions)][3072];
   static uint8_t ipOutboundBuffers[HAPArrayCount(ipSessions)][3072];
   static HAPIPEventNotificationRef
