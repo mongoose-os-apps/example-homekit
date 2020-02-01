@@ -9,7 +9,7 @@ It is based on the [original light bulb app](https://github.com/apple/HomeKitADK
  * Build and flash the firmware as usual.
  * Provision setup code via RPC:
 ```
- $ mos call HAP.SetupInfo '{"code": "111-22-333"}'
+ $ mos call HAP.Setup '{"code": "111-22-333"}'
 Using port /dev/ttyUSB0
 null
 ```

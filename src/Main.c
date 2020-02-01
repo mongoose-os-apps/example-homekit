@@ -71,7 +71,6 @@ extern void AppDeinitialize();
 extern void AppAccessoryServerStart(void);
 extern void AccessoryServerHandleUpdatedState(HAPAccessoryServerRef *server,
                                               void *_Nullable context);
-extern const HAPAccessory *AppGetAccessoryInfo();
 
 static void timer_cb(void *arg) {
   static bool s_tick_tock = false;
@@ -221,16 +220,11 @@ static void InitializeIP() {
   static HAPIPSession ipSessions[3];
   static uint8_t ipInboundBuffers[HAPArrayCount(ipSessions)][3072];
   static uint8_t ipOutboundBuffers[HAPArrayCount(ipSessions)][3072];
-  static HAPIPEventNotificationRef
-      ipEventNotifications[HAPArrayCount(ipSessions)][kAttributeCount];
   for (size_t i = 0; i < HAPArrayCount(ipSessions); i++) {
     ipSessions[i].inboundBuffer.bytes = ipInboundBuffers[i];
     ipSessions[i].inboundBuffer.numBytes = sizeof ipInboundBuffers[i];
     ipSessions[i].outboundBuffer.bytes = ipOutboundBuffers[i];
     ipSessions[i].outboundBuffer.numBytes = sizeof ipOutboundBuffers[i];
-    ipSessions[i].eventNotifications = ipEventNotifications[i];
-    ipSessions[i].numEventNotifications =
-        HAPArrayCount(ipEventNotifications[i]);
   }
   static uint8_t ipScratchBuffer[3072];
   static HAPIPAccessoryServerStorage ipAccessoryServerStorage = {
@@ -282,24 +276,15 @@ static void InitializeBLE() {
 enum mgos_app_init_result mgos_app_init(void) {
   HAPAssert(HAPGetCompatibilityVersion() == HAP_COMPATIBILITY_VERSION);
 
-  HAPSetupInfo setupInfo;
-  if (!mgos_hap_setup_info_from_string(&setupInfo,
-                                       mgos_sys_config_get_hap_salt(),
-                                       mgos_sys_config_get_hap_verifier())) {
-    LOG(LL_ERROR, ("HAP accessory not provisioned"));
-    mgos_hap_add_rpc_service();
-    return MGOS_APP_INIT_SUCCESS;
-  }
-
   // Initialize global platform objects.
   InitializePlatform();
 
 #if IP
-    InitializeIP();
+  InitializeIP();
 #endif
 
 #if BLE
-    InitializeBLE();
+  InitializeBLE();
 #endif
 
   // Perform Application-specific initalizations such as setting up callbacks
@@ -317,7 +302,14 @@ enum mgos_app_init_result mgos_app_init(void) {
   AppCreate(&accessoryServer, &platform.keyValueStore);
 
   // Start accessory server for App.
-  AppAccessoryServerStart();
+  if (mgos_hap_config_valid()) {
+    AppAccessoryServerStart();
+  } else {
+    LOG(LL_INFO, ("=== Accessory is not provisioned"));
+  }
+
+  mgos_hap_add_rpc_service(&accessoryServer, AppGetAccessoryInfo(),
+                           &platform.keyValueStore);
 
   return MGOS_APP_INIT_SUCCESS;
 }

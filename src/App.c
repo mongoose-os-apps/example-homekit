@@ -140,8 +140,7 @@ static HAPAccessory accessory = {
         (const HAPService *const[]){&mgos_hap_accessory_information_service,
                                     &mgos_hap_protocol_information_service,
                                     &mgos_hap_pairing_service,
-                                    &lightBulbService,
-                                    NULL},
+                                    &lightBulbService, NULL},
     .callbacks = {.identify = IdentifyAccessory}};
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -242,7 +241,7 @@ void AccessoryServerHandleUpdatedState(HAPAccessoryServerRef *server,
   HAPFatalError();
 }
 
-const HAPAccessory *AppGetAccessoryInfo() {
+HAPAccessory *AppGetAccessoryInfo() {
   return &accessory;
 }
 

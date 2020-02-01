@@ -31,6 +31,7 @@ config_schema:
   # Serial number. This can be later set in the field but HomeKit requires at least 2 bytes.
   - ["device.sn", "000000"]
   - ["lightbulb.name", "s", "Light Bulb", {"title": "Accessory name (unless renamed by the user)"}]
+  - ["device.sn", "000000"]
 
 build_vars:
   # Enables storing setup info in the config and a simple RPC service to configure it.
@@ -40,7 +41,6 @@ libs:
   - origin: https://github.com/mongoose-os-libs/homekit-adk
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
   - origin: https://github.com/mongoose-os-libs/rpc-uart
-  - origin: https://github.com/mongoose-os-libs/rpc-ws
 
 conds:
   - when: mos.platform == "esp32"

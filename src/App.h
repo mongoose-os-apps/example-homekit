@@ -86,7 +86,7 @@ void RestorePlatformFactorySettings(void);
 /**
  * Returns pointer to accessory information
  */
-const HAPAccessory *AppGetAccessoryInfo();
+HAPAccessory *AppGetAccessoryInfo();
 
 #if __has_feature(nullability)
 #pragma clang assume_nonnull end
