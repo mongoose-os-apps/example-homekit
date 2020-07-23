@@ -218,11 +218,8 @@ void HandleUpdatedState(HAPAccessoryServerRef *_Nonnull server,
 static void InitializeIP() {
   // Prepare accessory server storage.
   static HAPIPSession ipSessions[3];
-  static uint8_t ipInboundBuffers[HAPArrayCount(ipSessions)][3072];
   static uint8_t ipOutboundBuffers[HAPArrayCount(ipSessions)][3072];
   for (size_t i = 0; i < HAPArrayCount(ipSessions); i++) {
-    ipSessions[i].inboundBuffer.bytes = ipInboundBuffers[i];
-    ipSessions[i].inboundBuffer.numBytes = sizeof ipInboundBuffers[i];
     ipSessions[i].outboundBuffer.bytes = ipOutboundBuffers[i];
     ipSessions[i].outboundBuffer.numBytes = sizeof ipOutboundBuffers[i];
   }
