@@ -27,6 +27,8 @@
 static bool requestedFactoryReset = false;
 static bool clearPairings = false;
 
+#define MAX_NUM_SESSIONS 8
+
 #define PREFERRED_ADVERTISING_INTERVAL \
   (HAPBLEAdvertisingIntervalCreateFromMilliseconds(417.5f))
 
@@ -105,7 +107,7 @@ static void InitializePlatform() {
       &(const HAPPlatformTCPStreamManagerOptions){
           .port = kHAPNetworkPort_Any,  // Listen on unused port number from the
                                         // ephemeral port range.
-          .maxConcurrentTCPStreams = kHAPIPSessionStorage_DefaultNumElements});
+          .maxConcurrentTCPStreams = MAX_NUM_SESSIONS});
 
   // Service discovery.
   static HAPPlatformServiceDiscovery serviceDiscovery;
@@ -217,13 +219,8 @@ void HandleUpdatedState(HAPAccessoryServerRef *_Nonnull server,
 #if IP
 static void InitializeIP() {
   // Prepare accessory server storage.
-  static HAPIPSession ipSessions[3];
-  static uint8_t ipOutboundBuffers[HAPArrayCount(ipSessions)][3072];
-  for (size_t i = 0; i < HAPArrayCount(ipSessions); i++) {
-    ipSessions[i].outboundBuffer.bytes = ipOutboundBuffers[i];
-    ipSessions[i].outboundBuffer.numBytes = sizeof ipOutboundBuffers[i];
-  }
-  static uint8_t ipScratchBuffer[3072];
+  static HAPIPSession ipSessions[MAX_NUM_SESSIONS];
+  static uint8_t ipScratchBuffer[1536];
   static HAPIPAccessoryServerStorage ipAccessoryServerStorage = {
       .sessions = ipSessions,
       .numSessions = HAPArrayCount(ipSessions),
