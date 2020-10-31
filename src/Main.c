@@ -302,8 +302,7 @@ enum mgos_app_init_result mgos_app_init(void) {
     LOG(LL_INFO, ("=== Accessory is not provisioned"));
   }
 
-  mgos_hap_add_rpc_service(&accessoryServer, AppGetAccessoryInfo(),
-                           &platform.keyValueStore);
+  mgos_hap_add_rpc_service(&accessoryServer, AppGetAccessoryInfo());
 
   return MGOS_APP_INIT_SUCCESS;
 }
